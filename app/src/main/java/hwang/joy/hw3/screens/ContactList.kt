@@ -1,9 +1,7 @@
 package hwang.joy.hw3.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Button // TEMP
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import hwang.joy.hw3.CommonList
@@ -23,20 +21,29 @@ fun ContactList(
     selection: ListSelection,
     modifier: Modifier,
     onReset: () -> Unit,
-) { Column {
-    Text(text = "hello im a contact list", style = MaterialTheme.typography.h4)
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar( // need custom wrapper around top app bar
+                content = {
+                    SimpleButton(text = "Reset DB") {
+                        onReset()
+                    }
+                }
+            )
+        },
+        content = {
+            Column {
+                Text(text = "hello im a contact list", style = MaterialTheme.typography.h4)
 
-    SimpleButton(text = "Reset DB") {
-        onReset()
-    }
-
-    CommonList(
-        modifier = modifier,
-        items = contacts,
-        getId = { id },
-        getText = { firstName },
-        selection = selection
+                CommonList(
+                    modifier = modifier,
+                    items = contacts,
+                    getId = { id },
+                    getText = { firstName },
+                    selection = selection
+                )
+            }
+        }
     )
-}
-
 }

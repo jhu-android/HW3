@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import hwang.joy.hw3.CommonList
-import hwang.joy.hw3.ListSelection
+import hwang.joy.hw3.common.CommonList
+import hwang.joy.hw3.common.ListSelection
 import hwang.joy.hw3.data.ContactEntity
 
 // TEMP

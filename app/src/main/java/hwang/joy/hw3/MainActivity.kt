@@ -50,14 +50,18 @@ fun Ui (
     val contacts by viewModel.contactsFlow.collectAsState(initial = emptyList())
     val addresses by viewModel.addressesFlow.collectAsState(initial = emptyList())
 
-    Log.d("commonList", "contacts: $contacts")
-
     when (val currentScreen = viewModel.screen) {
         null -> exit()
         is ContactListScreen -> ContactList(
             contacts = contacts,
-            selection = currentScreen.selection,
-            modifier = Modifier,
+            selection = currentScreen.selection, // currentScreen = currentScreen
+            // onScreenSelect = viewModel:: selectListScreen,
+            // scope = scope,
+            // selectedIds = viewModel.selectedContactIds
+//            onToggleSelect = viewModel::toggleSelectedContactId,
+//            onDeleteSelections = viewModel::deleteSelectedContacts,
+//            onClearSelections = viewModel::clearSelectedContactIds,
+            modifier = Modifier,    // delete
             onReset = {
                 scope.launch {
                     viewModel.resetDatabase()

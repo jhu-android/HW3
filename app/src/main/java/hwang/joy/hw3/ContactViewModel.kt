@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel
 import hwang.joy.hw3.data.AddressEntity
 import hwang.joy.hw3.data.ContactEntity
 import hwang.joy.hw3.data.ContactWithAddresses
+import hwang.joy.hw3.common.ListSelection
+import hwang.joy.hw3.common.NoListSelection
 
 sealed interface Screen
 data class ContactListScreen(val selection: ListSelection): Screen

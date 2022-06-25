@@ -50,6 +50,7 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 
     fun push(screen: Screen) { screenStack = screenStack + screen }
     fun pop() { screenStack = screenStack.dropLast(1)}
+
     fun selectListScreen(screen: Screen) {
         screenStack = listOf(screen)
     }
@@ -80,14 +81,10 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         selectedContactIds = emptyImmutableSet()
     }
 
+
 //    suspend fun deleteSelectedContacts() {
 //        repository. TODO
 //    }
-
-
-
-
-
 
 //    suspend fun select(address: AddressEntity) {
 //        this.address = repository.getEntity(address)

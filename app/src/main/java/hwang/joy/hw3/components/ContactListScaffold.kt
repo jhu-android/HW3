@@ -13,7 +13,7 @@ fun <T> ContactListScaffold(
     scope: CoroutineScope,
     contacts: ImmutableList<T>,
     currentScreen: Screen,
-    onScreenSelect: (Screen) -> Unit,
+    onListScreenSelect: (Screen) -> Unit,
     selectedIds: ImmutableSet<String>,
     onToggleSelect: (String) -> Unit,
     onClearSelections: () -> Unit,

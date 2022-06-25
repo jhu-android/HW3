@@ -14,7 +14,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import hwang.joy.hw3.screens.ContactList
+import hwang.joy.hw3.components.emptyImmutableList
+import hwang.joy.hw3.screens.ContactListScreen
 import hwang.joy.hw3.ui.theme.HW3Theme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -47,21 +48,19 @@ fun Ui (
     viewModel: ContactViewModel,
     exit: () -> Unit,
 ) {
-    val contacts by viewModel.contactsFlow.collectAsState(initial = emptyList())
-    val addresses by viewModel.addressesFlow.collectAsState(initial = emptyList())
-
+    val contacts by viewModel.contactsFlow.collectAsState(initial = emptyImmutableList())
+    
     when (val currentScreen = viewModel.screen) {
         null -> exit()
-        is ContactListScreen -> ContactList(
+        is ContactListScreen -> ContactListScreen(
+            scope = scope,
             contacts = contacts,
-            selection = currentScreen.selection, // currentScreen = currentScreen
-            // onScreenSelect = viewModel:: selectListScreen,
-            // scope = scope,
-            // selectedIds = viewModel.selectedContactIds
-//            onToggleSelect = viewModel::toggleSelectedContactId,
-//            onDeleteSelections = viewModel::deleteSelectedContacts,
-//            onClearSelections = viewModel::clearSelectedContactIds,
-            modifier = Modifier,    // delete
+            currentScreen = currentScreen,
+            onScreenSelect = viewModel:: selectListScreen,
+            selectedIds = viewModel.selectedContactIds,
+            onToggleSelect = viewModel::toggleSelectedContactId,
+            onClearSelections = viewModel::clearSelectedContactIds,
+            // onDeleteSelections = viewModel::deleteSelectedContacts,
             onReset = {
                 scope.launch {
                     viewModel.resetDatabase()

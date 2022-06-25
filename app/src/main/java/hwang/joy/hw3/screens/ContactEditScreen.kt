@@ -1,4 +1,4 @@
 package hwang.joy.hw3.screens
 
-class About {
+class ContactEditScreen {
 }

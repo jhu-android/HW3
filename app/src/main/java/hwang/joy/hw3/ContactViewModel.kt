@@ -1,22 +1,33 @@
 package hwang.joy.hw3
 
 import android.app.Application
+import android.util.Log
+import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.AndroidViewModel
+import hwang.joy.hw3.components.*
 import hwang.joy.hw3.data.AddressEntity
 import hwang.joy.hw3.data.ContactEntity
 import hwang.joy.hw3.data.ContactWithAddresses
-import hwang.joy.hw3.common.ListSelection
-import hwang.joy.hw3.common.NoListSelection
+import kotlinx.coroutines.flow.map
 
-sealed interface Screen
-data class ContactListScreen(val selection: ListSelection): Screen
-data class ContactDisplayScreen(val selection: ListSelection): Screen
-data class ContactEditScreen(val selection: ListSelection): Screen
-data class AddressEditScreen(val selection: ListSelection): Screen
-//object AboutScreen: Screen
+sealed class Screen(
+    @StringRes val titleId: Int,
+    val icon: ImageVector,
+)
+object ContactListScreen: Screen(
+    titleId = R.string.screen_title_contacts,
+    icon = Icons.Default.Person,
+)
+
+// object other screens
+
+val screenTargets = immutableListOf(ContactListScreen) // add other screens
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
     private val repository: ContactRepository = ContactDatabaseRepository(application)
@@ -25,10 +36,13 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         private set
     var address by mutableStateOf<AddressEntity?>(null)
         private set
-    var screen by mutableStateOf<Screen?>(ContactListScreen(NoListSelection))
+
+    var selectedContactIds by mutableStateOf<ImmutableSet<String>>(emptyImmutableSet())
+
+    var screen by mutableStateOf<Screen?>(ContactListScreen)
         private set
 
-    private var screenStack = listOf<Screen>(ContactListScreen(NoListSelection))
+    private var screenStack = listOf<Screen>(ContactListScreen)
         set(value) {
             field = value
             screen = value.lastOrNull()
@@ -36,38 +50,69 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 
     fun push(screen: Screen) { screenStack = screenStack + screen }
     fun pop() { screenStack = screenStack.dropLast(1)}
-    // TODO peekOneBack and replaceTop may be needed for stack manipulation
+    fun selectListScreen(screen: Screen) {
+        screenStack = listOf(screen)
+    }
 
-    val contactsFlow = repository.contactsFlow
-    val addressesFlow = repository.addressesFlow
+
+    val contactsFlow = repository.contactsFlow.map {
+        ImmutableList(it)
+    }
+    val addressesFlow = repository.addressesFlow.map {
+        ImmutableList(it)
+    }
 
     suspend fun select(contact: ContactEntity) {
         this.contact = repository.getEntity(contact)
     }
-    suspend fun select(address: AddressEntity) {
-        this.address = repository.getEntity(address)
+
+    private fun ImmutableSet<String>.toggleSelectionId(id: String): ImmutableSet<String> = // ???
+        if (id in this)
+            this - id
+        else
+            this + id
+
+    fun toggleSelectedContactId(id: String) {
+        selectedContactIds = selectedContactIds.toggleSelectionId(id)
     }
 
-    suspend fun deleteAddresses(addresses: AddressEntity) {
-        repository.delete(addresses)
-    }
-    suspend fun deleteContacts(contacts: ContactEntity) {
-        repository.delete(contacts)
+    fun clearSelectedContactIds() {
+        selectedContactIds = emptyImmutableSet()
     }
 
-    suspend fun insertAddresses(addresses: AddressEntity) {
-        repository.insert(addresses)
-    }
-    suspend fun insertContacts(contacts: ContactEntity) {
-        repository.insert(contacts)
-    }
+//    suspend fun deleteSelectedContacts() {
+//        repository. TODO
+//    }
 
-    suspend fun updateAddresses(addresses: AddressEntity) {
-        repository.update(addresses)
-    }
-    suspend fun updateContacts(contacts: ContactEntity) {
-        repository.update(contacts)
-    }
+
+
+
+
+
+//    suspend fun select(address: AddressEntity) {
+//        this.address = repository.getEntity(address)
+//    }
+
+//    suspend fun deleteAddresses(addresses: AddressEntity) {
+//        repository.delete(addresses)
+//    }
+//    suspend fun deleteContacts(contacts: ContactEntity) {
+//        repository.delete(contacts)
+//    }
+//
+//    suspend fun insertAddresses(addresses: AddressEntity) {
+//        repository.insert(addresses)
+//    }
+//    suspend fun insertContacts(contacts: ContactEntity) {
+//        repository.insert(contacts)
+//    }
+//
+//    suspend fun updateAddresses(addresses: AddressEntity) {
+//        repository.update(addresses)
+//    }
+//    suspend fun updateContacts(contacts: ContactEntity) {
+//        repository.update(contacts)
+//    }
 
     suspend fun resetDatabase() = repository.resetDatabase()
 

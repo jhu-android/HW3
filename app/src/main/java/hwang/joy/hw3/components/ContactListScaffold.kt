@@ -13,9 +13,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import hwang.joy.hw3.R
 
 @Composable
 fun ContactListScaffold(
@@ -47,7 +49,7 @@ fun ContactListScaffold(
                             Icon(
                                 tint = Color.Yellow,
                                 imageVector = Icons.Default.Autorenew,
-                                contentDescription = "refresh",
+                                contentDescription = stringResource(id = R.string.icon_description_reset_db),
                             )
 
                         }
@@ -60,10 +62,12 @@ fun ContactListScaffold(
                     navigationIcon = {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back",
-                            modifier = Modifier.padding(8.dp).clickable {
-                                onClearSelections()
-                            }
+                            contentDescription = stringResource(id = R.string.icon_description_clear_select),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .clickable {
+                                    onClearSelections()
+                                }
                         )
                     },
                     actions = {
@@ -89,20 +93,17 @@ fun ContactListScaffold(
             BottomAppBar(
                 content = { Text(text = "Bottom App Bar")}
             )
-        },
-        content = {
-            ContactListBody(
-                scope = scope,
-                contacts = contacts,
-                getKey = { contactEntity -> contactEntity.id  },
-                currentScreen = currentScreen,
-                onListScreenSelect = onListScreenSelect,
-                selectedIds = selectedIds,
-                onToggleSelect = onToggleSelect,
-                onClearSelections = onClearSelections,
-                onContactClick = select,
-                onDeleteSelections = onDeleteSelections,
-            )
         }
-    )
+    ) {
+        ContactListBody(
+            scope = scope,
+            contacts = contacts,
+            getKey = { contactEntity -> contactEntity.id },
+            selectedIds = selectedIds,
+            onToggleSelect = onToggleSelect,
+            onClearSelections = onClearSelections,
+            onContactClick = select,
+            onDeleteSelections = onDeleteSelections,
+        )
+    }
 }

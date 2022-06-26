@@ -1,4 +1,4 @@
-package hwang.joy.hw3.screens
+package hwang.joy.hw3.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
@@ -12,12 +12,20 @@ import hwang.joy.hw3.data.ContactWithAddresses
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun ContactDisplayScreen(
+fun ContactDisplayBody(
     scope: CoroutineScope,
-    currentScreen: Screen,
-    onListScreenSelect:(Screen) -> Unit,
     contact: ContactWithAddresses?,
+    // editing functions
 ) {
+    // should have a scaffold etc...
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
+        Text(text="contact display screen")
+        Text(text = "${contact?.contact?.firstName} ${contact?.contact?.lastName}", style = MaterialTheme.typography.h4)
+        contact?.addresses?.forEach {
+            Text(text = "${it.type}: ${it.street}")
+        }
 
-
+    }
 }

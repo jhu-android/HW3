@@ -4,4 +4,15 @@
     <string name="screen_title_main">Contact Manager</string>
     <string name="screen_title_contacts">Contacts</string>
     <string name="screen_title_contact">Contact</string>
+    <string name="screen_title_address">Address</string>
+    <string name="screen_title_contact_edit">Edit Contact</string>
+    <string name="screen_title_address_edit">Edit Address</string>
+
+    <string name="icon_description_tap_to_select">Tap to select</string>
+    <string name="icon_description_reset_db">Tap to reset database</string>
+    <string name="icon_description_clear_select">Tap to clear selection</string>
+    <string name="icon_description_delete_selections">Tap to delete selection</string>
+
+<!--   TODO  placeholders for forms -->
+
 </resources>

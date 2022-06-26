@@ -18,16 +18,19 @@ import kotlinx.coroutines.flow.map
 
 sealed class Screen(
     @StringRes val titleId: Int,
-    val icon: ImageVector,
 )
 object ContactListScreen: Screen(
     titleId = R.string.screen_title_contacts,
-    icon = Icons.Default.Person,
 )
+
+object ContactDisplayScreen: Screen(
+    titleId = R.string.screen_title_contacts,
+)
+
 
 // object other screens
 
-val screenTargets = immutableListOf(ContactListScreen) // add other screens
+val screenTargets = immutableListOf(ContactListScreen, ContactDisplayScreen) // add other screens
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
     private val repository: ContactRepository = ContactDatabaseRepository(application)
@@ -79,6 +82,11 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 
     fun clearSelectedContactIds() {
         selectedContactIds = emptyImmutableSet()
+    }
+
+    suspend fun deleteSelectedContacts() {
+        repository.deleteContactsByIds(selectedContactIds.toList())
+        clearSelectedContactIds()
     }
 
 

@@ -18,5 +18,7 @@ interface ContactRepository {
     suspend fun delete(vararg contacts: ContactEntity)
     suspend fun delete(vararg addresses: AddressEntity)
 
+    suspend fun deleteContactsByIds(ids: List<String>)
+
     suspend fun resetDatabase()
 }

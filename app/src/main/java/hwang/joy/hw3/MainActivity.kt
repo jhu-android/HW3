@@ -61,19 +61,24 @@ fun Ui (
             selectedIds = viewModel.selectedContactIds,
             onToggleSelect = viewModel::toggleSelectedContactId,
             onClearSelections = viewModel::clearSelectedContactIds,
-            // onDeleteSelections = viewModel::deleteSelectedContacts,
+            onDeleteSelections = viewModel::deleteSelectedContacts,
             onReset = {
                 scope.launch {
                     Log.d("jhw", "resetting DB")
                     viewModel.resetDatabase()
                 }
             }
+        ) {
+            scope.launch {
+                viewModel.select(it)
+                viewModel.push(ContactDisplayScreen)
+            }
+        }
+        is ContactDisplayScreen -> ContactDisplayScreen(
+            scope = scope,
+            currentScreen = currentScreen,
+            onListScreenSelect = viewModel:: selectListScreen,
+            contact = viewModel.contact,
         )
-//        {
-//            scope.launch {
-//                viewModel.select(it)
-//                viewModel.push(ContactDisplayScreen)
-//            }
-//        }
     }
 }

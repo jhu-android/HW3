@@ -64,4 +64,10 @@ class ContactDatabaseRepository(private val application: Application) : ContactR
         withContext(Dispatchers.IO) {
             db.dao().resetDatabase()
         }
+
+    override suspend fun deleteContactsByIds(ids: List<String>): Unit =
+        withContext(Dispatchers.IO) {
+            db.dao().deleteContactsByIds(ids)
+        }
+
 }

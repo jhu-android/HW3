@@ -15,7 +15,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import hwang.joy.hw3.components.emptyImmutableList
+import hwang.joy.hw3.screens.AboutScreen
 import hwang.joy.hw3.screens.ContactDisplayScreen
+import hwang.joy.hw3.screens.ContactEditScreen
 import hwang.joy.hw3.screens.ContactListScreen
 import hwang.joy.hw3.ui.theme.HW3Theme
 import kotlinx.coroutines.CoroutineScope
@@ -67,6 +69,12 @@ fun Ui (
                     Log.d("jhw", "resetting DB")
                     viewModel.resetDatabase()
                 }
+            },
+            onEdit = {
+                viewModel.push(ContactEditScreen)
+            },
+            onClickAbout = {
+                viewModel.push(AboutScreen)
             }
         ) {
             scope.launch {
@@ -79,6 +87,22 @@ fun Ui (
             currentScreen = currentScreen,
             onListScreenSelect = viewModel:: selectListScreen,
             contact = viewModel.contact,
+            onEdit = {
+                viewModel.push(ContactEditScreen)
+            },
+            onClickAbout = {
+                viewModel.push(AboutScreen)
+            }
+        )
+        is ContactEditScreen -> ContactEditScreen(
+            scope = scope,
+            contact = viewModel.contact,
+            onClickAbout = {
+                viewModel.push(AboutScreen)
+            },
+        )
+        is AboutScreen -> AboutScreen(
+            scope = scope,
         )
     }
 }

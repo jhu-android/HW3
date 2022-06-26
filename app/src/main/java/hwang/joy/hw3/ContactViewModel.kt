@@ -27,10 +27,22 @@ object ContactDisplayScreen: Screen(
     titleId = R.string.screen_title_contacts,
 )
 
+object ContactEditScreen: Screen(
+    titleId = R.string.screen_title_contacts, //TODO
+)
+
+object AboutScreen: Screen(
+    titleId = R.string.screen_title_about,
+)
 
 // object other screens
 
-val screenTargets = immutableListOf(ContactListScreen, ContactDisplayScreen) // add other screens
+val screenTargets = immutableListOf( // add other screens
+    ContactListScreen,
+    ContactDisplayScreen,
+    ContactEditScreen,
+    AboutScreen,
+)
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
     private val repository: ContactRepository = ContactDatabaseRepository(application)

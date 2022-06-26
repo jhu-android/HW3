@@ -17,7 +17,6 @@ fun ContactDisplayBody(
     contact: ContactWithAddresses?,
     // editing functions
 ) {
-    // should have a scaffold etc...
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {

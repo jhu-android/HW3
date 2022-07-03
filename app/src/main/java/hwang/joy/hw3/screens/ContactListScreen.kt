@@ -1,5 +1,6 @@
 package hwang.joy.hw3.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import hwang.joy.hw3.Screen
 import hwang.joy.hw3.data.ContactEntity
@@ -31,11 +32,13 @@ fun ContactListScreen(
     onClearSelections: () -> Unit,
     onDeleteSelections: suspend () -> Unit,
     onReset: () -> Unit,
-    onEdit: () -> Unit,
+    onAddContact: suspend () -> Unit,
     onClickAbout: () -> Unit,
     select:(ContactEntity) -> Unit,
 
     ) {
+
+
     Scaffold(
         topBar = {
             if (selectedIds.size == 0) {
@@ -45,21 +48,7 @@ fun ContactListScreen(
                         IconButton(
                             onClick = {
                                 scope.launch(Dispatchers.IO) {
-                                    onClickAbout()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                tint = Color.LightGray,
-                                imageVector = Icons.Default.Info,
-                                contentDescription = stringResource(id = R.string.icon_description_about),
-                            )
-                        }
-
-                        IconButton(
-                            onClick = {
-                                scope.launch(Dispatchers.IO) {
-                                    onEdit()
+                                    onAddContact()
                                 }
                             }
                         ) {
@@ -84,7 +73,19 @@ fun ContactListScreen(
                             )
 
                         }
-                        // TODO button for adding new contact
+                        IconButton(
+                            onClick = {
+                                scope.launch(Dispatchers.IO) {
+                                    onClickAbout()
+                                }
+                            }
+                        ) {
+                            Icon(
+                                tint = Color.LightGray,
+                                imageVector = Icons.Default.Info,
+                                contentDescription = stringResource(id = R.string.icon_description_about),
+                            )
+                        }
                     }
                 )
             } else {

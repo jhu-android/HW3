@@ -70,7 +70,8 @@ fun Ui (
                     viewModel.resetDatabase()
                 }
             },
-            onEdit = {
+            onAddContact = {
+                viewModel.unselectContact()
                 viewModel.push(ContactEditScreen)
             },
             onClickAbout = {
@@ -92,7 +93,7 @@ fun Ui (
             },
             onClickAbout = {
                 viewModel.push(AboutScreen)
-            }
+            },
         )
         is ContactEditScreen -> ContactEditScreen(
             scope = scope,
@@ -100,7 +101,17 @@ fun Ui (
             onClickAbout = {
                 viewModel.push(AboutScreen)
             },
-        )
+            onContactAdd = {
+                scope.launch {
+                    viewModel.insertContact(it)
+                }
+            },
+
+        ){
+            scope.launch {
+                viewModel.updateContact(it)
+            }
+        }
         is AboutScreen -> AboutScreen(
             scope = scope,
         )

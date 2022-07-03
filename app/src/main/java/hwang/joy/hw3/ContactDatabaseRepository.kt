@@ -1,6 +1,7 @@
 package hwang.joy.hw3
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
 import hwang.joy.hw3.data.AddressEntity
 import hwang.joy.hw3.data.ContactDatabase
@@ -45,6 +46,7 @@ class ContactDatabaseRepository(private val application: Application) : ContactR
     override suspend fun update(vararg contacts: ContactEntity): Unit =
         withContext(Dispatchers.IO) {
             db.dao().update(*contacts)
+            Log.d("jhw", "updated contacts")
         }
     override suspend fun update(vararg addresses: AddressEntity): Unit =
         withContext(Dispatchers.IO) {

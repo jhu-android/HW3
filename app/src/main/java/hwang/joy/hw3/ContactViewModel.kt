@@ -82,6 +82,10 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         this.contact = repository.getEntity(contact)
     }
 
+    suspend fun unselectContact() {
+        this.contact = null
+    }
+
     private fun ImmutableSet<String>.toggleSelectionId(id: String): ImmutableSet<String> = // ???
         if (id in this)
             this - id
@@ -101,6 +105,16 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         clearSelectedContactIds()
     }
 
+    suspend fun updateContact(contact: ContactEntity) {
+        repository.update(contact)
+        select(contact)
+
+    }
+
+    suspend fun insertContact(contact: ContactEntity) {
+        repository.insert(contact)
+        select(contact)
+    }
 
 //    suspend fun deleteSelectedContacts() {
 //        repository. TODO
@@ -120,16 +134,12 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 //    suspend fun insertAddresses(addresses: AddressEntity) {
 //        repository.insert(addresses)
 //    }
-//    suspend fun insertContacts(contacts: ContactEntity) {
-//        repository.insert(contacts)
-//    }
+
 //
 //    suspend fun updateAddresses(addresses: AddressEntity) {
 //        repository.update(addresses)
 //    }
-//    suspend fun updateContacts(contacts: ContactEntity) {
-//        repository.update(contacts)
-//    }
+
 
     suspend fun resetDatabase() = repository.resetDatabase()
 

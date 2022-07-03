@@ -17,6 +17,27 @@
     <string name="icon_description_tap_to_add">Tap to add</string>
     <string name="icon_description_about">Tap for information</string>
 
-<!--   TODO  placeholders for forms -->
+    <string name="label_firstName">First Name</string>
+    <string name="label_lastName">Last Name</string>
+    <string name="label_homePhone">Home Phone</string>
+    <string name="label_workPhone">Work Phone</string>
+    <string name="label_mobilePhone"> Mobile Phone</string>
+    <string name="label_emailAddress">Email Address</string>
+    <string name="label_homeAddress">Home Address</string>
+    <string name="label_workAddress">Work Address</string>
+
+    <string name="placeholder_firstName">Enter contact first name</string>
+    <string name="placeholder_lastName">Enter contact last Name</string>
+    <string name="placeholder_homePhone">Enter contact home phone</string>
+    <string name="placeholder_workPhone">Enter contact work phone</string>
+    <string name="placeholder_mobilePhone">Enter contact mobile phone</string>
+    <string name="placeholder_emailAddress">Enter contact email address</string>
+    <string name="placeholder_address_type">Enter address type</string>
+    <string name="placeholder_address_street">Enter street address</string>
+    <string name="placeholder_address_state">Enter state</string>
+    <string name="placeholder_address_zip">Enter zipcode</string>
+
+
+    <!--   TODO  placeholders for forms -->
 
 </resources>

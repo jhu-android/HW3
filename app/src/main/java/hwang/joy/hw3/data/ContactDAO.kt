@@ -53,6 +53,9 @@ abstract class ContactDAO {
     @Query("DELETE FROM ContactEntity WHERE id in (:ids)")
     abstract fun deleteContactsByIds(ids: List<String>)
 
+    @Query("DELETE FROM AddressEntity WHERE id = :id")
+    abstract fun deleteAddressById(id: String)
+
     @Transaction
     open fun resetDatabase() {
         clearContacts()

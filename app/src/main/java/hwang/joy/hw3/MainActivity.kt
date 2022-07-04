@@ -16,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import hwang.joy.hw3.components.emptyImmutableList
 import hwang.joy.hw3.screens.AboutScreen
+import hwang.joy.hw3.screens.AddressEditScreen
 import hwang.joy.hw3.screens.ContactDisplayScreen
 import hwang.joy.hw3.screens.ContactEditScreen
 import hwang.joy.hw3.screens.ContactListScreen
@@ -52,14 +53,13 @@ fun Ui (
     exit: () -> Unit,
 ) {
     val contacts by viewModel.contactsFlow.collectAsState(initial = emptyImmutableList())
+    val addresses by viewModel.addressesFlow.collectAsState(initial = emptyImmutableList())
     
     when (val currentScreen = viewModel.screen) {
         null -> exit()
         is ContactListScreen -> ContactListScreen(
             scope = scope,
             contacts = contacts,
-            currentScreen = currentScreen,
-            onListScreenSelect = viewModel:: selectListScreen,
             selectedIds = viewModel.selectedContactIds,
             onToggleSelect = viewModel::toggleSelectedContactId,
             onClearSelections = viewModel::clearSelectedContactIds,
@@ -106,12 +106,56 @@ fun Ui (
                     viewModel.insertContact(it)
                 }
             },
-
-        ){
-            scope.launch {
-                viewModel.updateContact(it)
+            onContactChange = {
+                scope.launch {
+                    viewModel.updateContact(it)
+                }
+            },
+            onAddressDelete = {
+                scope.launch {
+                    viewModel.deleteSelectedAddress(it)
+                }
+            },
+            onAddAddressClick = {
+                scope.launch {
+                    Log.d("jhw@", "screen to add address to preexisting contact")
+                    viewModel.unselectAddress()
+                    viewModel.push(AddressEditScreen)
+                }
+            },
+            onAddAddressClickNewContact = {
+                scope.launch {
+                    Log.d("jhw@", "create new contact, screen to add address ")
+                    viewModel.insertContact(it)
+                    viewModel.unselectAddress()
+                    viewModel.push(AddressEditScreen)
+                }
+            },
+            onAddressEdit = {
+                scope.launch {
+                    viewModel.select(it)
+                    viewModel.push(AddressEditScreen)
+                }
             }
-        }
+        )
+        is AddressEditScreen -> AddressEditScreen(
+            scope = scope,
+            address = viewModel.address,
+            contactId = viewModel.contact?.contact?.id,
+            onClickAbout = {
+                viewModel.push(AboutScreen)
+            },
+            onAddressChange = {
+                scope.launch {
+                    viewModel.updateAddress(it)
+                }
+            },
+            onAddressAdd = {
+                scope.launch {
+                    viewModel.insertAddress(it)
+                }
+            },
+        )
         is AboutScreen -> AboutScreen(
             scope = scope,
         )

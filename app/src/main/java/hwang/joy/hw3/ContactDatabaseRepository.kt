@@ -46,7 +46,6 @@ class ContactDatabaseRepository(private val application: Application) : ContactR
     override suspend fun update(vararg contacts: ContactEntity): Unit =
         withContext(Dispatchers.IO) {
             db.dao().update(*contacts)
-            Log.d("jhw", "updated contacts")
         }
     override suspend fun update(vararg addresses: AddressEntity): Unit =
         withContext(Dispatchers.IO) {
@@ -71,5 +70,11 @@ class ContactDatabaseRepository(private val application: Application) : ContactR
         withContext(Dispatchers.IO) {
             db.dao().deleteContactsByIds(ids)
         }
+
+    override suspend fun deleteAddressById(id: String): Unit =
+        withContext(Dispatchers.IO) {
+            db.dao().deleteAddressById(id)
+        }
+
 
 }

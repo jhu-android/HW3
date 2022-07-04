@@ -25,8 +25,6 @@ import hwang.joy.hw3.components.ImmutableSet
 fun ContactListScreen(
     scope: CoroutineScope,
     contacts: ImmutableList<ContactEntity>,
-    currentScreen: Screen,
-    onListScreenSelect: (Screen) -> Unit,
     selectedIds: ImmutableSet<String>,
     onToggleSelect: (String) -> Unit,
     onClearSelections: () -> Unit,
@@ -35,10 +33,7 @@ fun ContactListScreen(
     onAddContact: suspend () -> Unit,
     onClickAbout: () -> Unit,
     select:(ContactEntity) -> Unit,
-
     ) {
-
-
     Scaffold(
         topBar = {
             if (selectedIds.size == 0) {

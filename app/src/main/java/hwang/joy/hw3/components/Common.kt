@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import hwang.joy.hw3.data.AddressEntity
+import hwang.joy.hw3.data.ContactEntity
 
 // Immutables logic
 @Immutable
@@ -44,6 +46,46 @@ data class SingleListSelection(val id: String): ListSelection {
 }
 data class MultiListSelection(val ids: List<String>): ListSelection {
     override fun contains(id: String) = (id in ids)
+}
+
+// Form data logic
+class ContactFormData(incomingContact: ContactEntity? = ContactEntity("", "", "", "", "", "", "")) {
+    var firstName = incomingContact?.firstName
+    var lastName = incomingContact?.lastName
+    var homePhone = incomingContact?.homePhone
+    var workPhone = incomingContact?.workPhone
+    var mobilePhone = incomingContact?.mobilePhone
+    var emailAddress = incomingContact?.emailAddress
+}
+
+fun createNewContact(): ContactEntity {
+    return ContactEntity(
+        firstName = "",
+        lastName = "",
+        homePhone = "",
+        workPhone = "",
+        mobilePhone = "",
+        emailAddress = "",
+    )
+}
+
+class AddressFormData(incomingAddress: AddressEntity? = AddressEntity("","","","","","","")) {
+    var type = incomingAddress?.type
+    var street = incomingAddress?.street
+    var city = incomingAddress?.city
+    var state = incomingAddress?.state
+    var zip = incomingAddress?.zip
+}
+
+fun createNewAddress(contactId: String): AddressEntity {
+    return AddressEntity(
+        type = "",
+        street = "",
+        city = "",
+        state = "",
+        zip = "",
+        contactId = contactId,
+    )
 }
 
 // Composable - Common Text Field

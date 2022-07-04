@@ -2,18 +2,23 @@ package hwang.joy.hw3.components
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.OutlinedTextField
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import hwang.joy.hw3.data.ContactWithAddresses
-import hwang.joy.hw3.R
+import hwang.joy.hw3.data.AddressEntity
 import hwang.joy.hw3.data.ContactEntity
+import hwang.joy.hw3.data.ContactWithAddresses
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
@@ -22,42 +27,55 @@ fun ContactEditBody(
     contactWithAddresses: ContactWithAddresses?,
     onContactChange: suspend (ContactEntity) -> Unit,
     onContactAdd: suspend (ContactEntity) -> Unit,
+    onAddressDelete: suspend (String) -> Unit,
+    onAddAddressClick: suspend (String) -> Unit,
+    onAddAddressClickNewContact: suspend (ContactEntity) -> Unit,
+    onAddressEdit: suspend (AddressEntity) -> Unit,
+){
+    Log.d("jhw%%", contactWithAddresses?.addresses?.size.toString())
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
-
-    Log.d("jhw!", "Contact Edit Body: $contactWithAddresses")
-
-    var formData by remember { mutableStateOf(FormData(contactWithAddresses?.contact)) }
-
-    Column {
-        OutlinedTextField(
-            value = formData.firstName ?: "" ,
-            label = { Text(text = stringResource(id = R.string.label_firstName)) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
-            onValueChange = {
-                formData.firstName = it
-                if (contactWithAddresses != null) {
-                    scope.launch {
-                        onContactChange(contactWithAddresses.contact.copy(firstName = it))
+        ContactEditDetails(scope = scope,
+            contactWithAddresses = contactWithAddresses,
+            onContactChange = onContactChange,
+            onContactAdd = onContactAdd
+        )
+        Row {
+            Text(text="Addresses")
+            // hitting plus button -> if no contact, add new contact!!
+            IconButton(
+                onClick = {
+                    scope.launch(Dispatchers.IO) {
+                        if (contactWithAddresses != null) {
+                            onAddAddressClick(contactWithAddresses.contact.id)
+                        } else {
+                            onAddAddressClickNewContact(createNewContact())
+                        }
                     }
-                } else {
-                    scope.launch {
-                        onContactAdd(createNewContact().copy(firstName = it))
-                    }
-                }
-
+                },
+                modifier = Modifier.padding(8.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "add address"
+                )
             }
+
+        }
+        ContactEditAddresses(
+            scope = scope,
+            addresses = contactWithAddresses?.addresses,
+            getKey = { addressEntity -> addressEntity.id  },
+            onAddressDelete = onAddressDelete,
+            onAddressEdit = onAddressEdit,
         )
 
     }
+
+
 }
 
-class FormData(incomingContact: ContactEntity? = ContactEntity("","","","","","", "")) {
-    var firstName = incomingContact?.firstName
-    var lastName = incomingContact?.lastName
-    var homePhone = incomingContact?.homePhone
-    var workPhone = incomingContact?.workPhone
-    var mobilePhone = incomingContact?.mobilePhone
-    var emailAddress = incomingContact?.emailAddress
-}
+
 
 

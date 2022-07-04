@@ -35,6 +35,10 @@ object AboutScreen: Screen(
     titleId = R.string.screen_title_about,
 )
 
+object AddressEditScreen: Screen(
+    titleId = R.string.screen_title_address_edit,
+)
+
 // object other screens
 
 val screenTargets = immutableListOf( // add other screens
@@ -42,6 +46,7 @@ val screenTargets = immutableListOf( // add other screens
     ContactDisplayScreen,
     ContactEditScreen,
     AboutScreen,
+    AddressEditScreen
 )
 
 class ContactViewModel(application: Application): AndroidViewModel(application) {
@@ -80,10 +85,20 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 
     suspend fun select(contact: ContactEntity) {
         this.contact = repository.getEntity(contact)
+        Log.d("jhw&", "selecting contact! ${this.contact}")
     }
 
-    suspend fun unselectContact() {
+    suspend fun select(address: AddressEntity) {
+        this.address = repository.getEntity(address)
+        Log.d("jhw&", "selecting address! ${this.address}")
+    }
+
+    fun unselectContact() {
         this.contact = null
+    }
+
+    fun unselectAddress() {
+        this.address = null
     }
 
     private fun ImmutableSet<String>.toggleSelectionId(id: String): ImmutableSet<String> = // ???
@@ -105,15 +120,32 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         clearSelectedContactIds()
     }
 
+    suspend fun deleteSelectedAddress(id: String) {
+        repository.deleteAddressById(id)
+        this.contact?.contact?.let { select(it) }
+    }
+
     suspend fun updateContact(contact: ContactEntity) {
         repository.update(contact)
         select(contact)
-
     }
 
     suspend fun insertContact(contact: ContactEntity) {
         repository.insert(contact)
         select(contact)
+    }
+
+    suspend fun updateAddress(address: AddressEntity) {
+        repository.update(address)
+        select(address)
+        this.contact?.contact?.let { select(it) }
+    }
+
+    suspend fun insertAddress(address: AddressEntity) {
+        repository.insert(address)
+        select(address)
+        this.contact?.contact?.let { select(it) }
+
     }
 
 //    suspend fun deleteSelectedContacts() {
@@ -131,9 +163,7 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 //        repository.delete(contacts)
 //    }
 //
-//    suspend fun insertAddresses(addresses: AddressEntity) {
-//        repository.insert(addresses)
-//    }
+
 
 //
 //    suspend fun updateAddresses(addresses: AddressEntity) {

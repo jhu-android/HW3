@@ -16,9 +16,7 @@ fun ContactDisplayBody(
     contact: ContactWithAddresses?,
     // editing functions
 ) {
-    Column(
-        modifier = Modifier.verticalScroll(rememberScrollState())
-    ) {
+    Column {
         Text(text="contact display screen")
         Text(text = "${contact?.contact?.firstName} ${contact?.contact?.lastName}", style = MaterialTheme.typography.h4)
         contact?.addresses?.forEach {

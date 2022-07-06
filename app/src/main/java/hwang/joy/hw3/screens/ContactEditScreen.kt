@@ -69,6 +69,7 @@ fun ContactEditScreen(
             onAddAddressClick = onAddAddressClick,
             onAddAddressClickNewContact = onAddAddressClickNewContact,
             onAddressEdit = onAddressEdit,
+            getKey = { addressEntity -> addressEntity.id  }
         )
 
     }

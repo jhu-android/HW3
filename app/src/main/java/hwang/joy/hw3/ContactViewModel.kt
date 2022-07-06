@@ -139,6 +139,8 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
         repository.update(address)
         select(address)
         this.contact?.contact?.let { select(it) }
+        Log.d("nut", "viewModel - updated contact to be: ${this.contact}")
+
     }
 
     suspend fun insertAddress(address: AddressEntity) {
@@ -175,3 +177,17 @@ class ContactViewModel(application: Application): AndroidViewModel(application) 
 
 
 }
+
+/*
+* ) { contentModifier ->
+        LazyColumn(
+            modifier = contentModifier,
+        ) {
+            items(
+                items = items,
+                key = getKey,
+            ) { item ->
+                val key = getKey(item)
+                Card(
+*
+* */

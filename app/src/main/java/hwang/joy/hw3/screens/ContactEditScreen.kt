@@ -1,5 +1,6 @@
 package hwang.joy.hw3.screens
 
+import android.util.Log
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -60,6 +61,7 @@ fun ContactEditScreen(
             )
         }
     ) {
+        Log.d("nut", "ContactEditScreen - contact is: $contact")
         ContactEditBody(
             scope = scope,
             contactWithAddresses = contact,

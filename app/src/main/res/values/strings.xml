@@ -25,6 +25,11 @@
     <string name="label_emailAddress">Email Address</string>
     <string name="label_homeAddress">Home Address</string>
     <string name="label_workAddress">Work Address</string>
+    <string name="label_addressType">Address Type</string>
+    <string name="label_street">Street</string>
+    <string name="label_city">City</string>
+    <string name="label_state">State</string>
+    <string name="label_zip">Zipcode</string>
 
     <string name="placeholder_firstName">Enter contact first name</string>
     <string name="placeholder_lastName">Enter contact last Name</string>

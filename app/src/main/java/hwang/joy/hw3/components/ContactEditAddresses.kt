@@ -25,10 +25,8 @@ fun ContactEditAddresses(
     onAddressDelete: suspend (String) -> Unit,
     onAddressEdit: suspend (AddressEntity) -> Unit,
 ) {
-    Log.d("jhw%", addresses?.size.toString())
     Column {
         addresses?.forEach { address ->
-            Log.d("jhw%", address.street)
             val key = getKey(address)
             Card(
                 elevation = 4.dp,
@@ -46,7 +44,6 @@ fun ContactEditAddresses(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Log.d("jhw%", "row here should say ${address.street}")
                     Text(text = address.street, modifier = Modifier.weight(1f))
                     IconButton(
                         onClick = {
@@ -57,7 +54,7 @@ fun ContactEditAddresses(
                         modifier = Modifier.padding(8.dp),
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Delete,
+                            imageVector = Icons.Filled.Delete,
                             contentDescription = "delete",
                         )
                     }

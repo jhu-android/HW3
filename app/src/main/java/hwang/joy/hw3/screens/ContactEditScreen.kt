@@ -54,11 +54,6 @@ fun ContactEditScreen(
                 }
             )
         },
-        bottomBar = {
-            BottomAppBar(
-                content = { Text(text = "Bottom App Bar") }
-            )
-        }
     ) {
         ContactEditBody(
             scope = scope,

@@ -18,11 +18,6 @@ fun AboutScreen(
                 title = { Text(text = "About") },
             )
         },
-        bottomBar = {
-            BottomAppBar(
-                content = { Text(text = "Bottom App Bar") }
-            )
-        }
     ) {
         Column {
             Text(text = "About this app blah blah")

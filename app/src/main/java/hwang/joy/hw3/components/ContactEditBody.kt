@@ -32,7 +32,6 @@ fun ContactEditBody(
     onAddAddressClickNewContact: suspend (ContactEntity) -> Unit,
     onAddressEdit: suspend (AddressEntity) -> Unit,
 ){
-    Log.d("jhw%%", contactWithAddresses?.addresses?.size.toString())
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
@@ -61,7 +60,6 @@ fun ContactEditBody(
                     contentDescription = "add address"
                 )
             }
-
         }
         ContactEditAddresses(
             scope = scope,
@@ -70,10 +68,7 @@ fun ContactEditBody(
             onAddressDelete = onAddressDelete,
             onAddressEdit = onAddressEdit,
         )
-
     }
-
-
 }
 
 

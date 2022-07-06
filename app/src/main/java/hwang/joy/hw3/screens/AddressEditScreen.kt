@@ -22,6 +22,7 @@ fun AddressEditScreen(
     onAddressAdd: suspend(AddressEntity) -> Unit,
     onAddressChange: suspend (AddressEntity) -> Unit,
 ) {
+    
     Scaffold(
         topBar = {
             TopAppBar(
@@ -49,11 +50,6 @@ fun AddressEditScreen(
                 }
             )
         },
-        bottomBar = {
-            BottomAppBar(
-                content = { Text(text = "Bottom App Bar") }
-            )
-        }
     ) {
         AddressEditBody(
             scope = scope,

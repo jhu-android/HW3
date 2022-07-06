@@ -69,11 +69,6 @@ fun ContactDisplayScreen(
             )
 
         },
-        bottomBar = {
-            BottomAppBar(
-                content = { Text(text = "Bottom App Bar") }
-            )
-        }
     ) {
         ContactDisplayBody(
             scope = scope,

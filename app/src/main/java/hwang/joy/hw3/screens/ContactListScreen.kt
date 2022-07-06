@@ -116,11 +116,6 @@ fun ContactListScreen(
             }
 
         },
-        bottomBar = {
-            BottomAppBar(
-                content = { Text(text = "Bottom App Bar")}
-            )
-        }
     ) {
         ContactListBody(
             scope = scope,

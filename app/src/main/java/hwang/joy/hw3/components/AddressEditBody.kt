@@ -11,7 +11,9 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import hwang.joy.hw3.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -25,21 +27,20 @@ fun AddressEditBody(
     onAddressChange: suspend (AddressEntity) -> Unit,
 ) {
     var addressFormData by remember { mutableStateOf(AddressFormData(address)) }
-
-    Column {
+    Column(
+        modifier = Modifier.verticalScroll(rememberScrollState())
+    ) {
         OutlinedTextField(
             value = addressFormData.type ?: "",
-            label = { Text(text = "address type") },
+            label = { Text(text = stringResource(id = R.string.label_addressType)) },
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             onValueChange = {
                 addressFormData.type = it
                 if (address != null) {
-                    Log.d("jhw#", "changing address!")
                     scope.launch {
                         onAddressChange(address.copy(type = it))
                     }
                 } else {
-                    Log.d("jhw#", "adding address!")
                     scope.launch {
                         onAddressAdd(createNewAddress(contactId ?: "").copy(type = it)) // TODO this should never be null
                     }
@@ -48,7 +49,7 @@ fun AddressEditBody(
         )
         OutlinedTextField(
             value = addressFormData.street ?: "",
-            label = { Text(text = "address street") },
+            label = { Text(text = stringResource(id = R.string.label_street)) },
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             onValueChange = {
                 addressFormData.street = it

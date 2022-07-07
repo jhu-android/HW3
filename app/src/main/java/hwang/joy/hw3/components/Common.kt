@@ -1,28 +1,15 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3.components
 
-import android.util.Log
-import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import hwang.joy.hw3.data.AddressEntity
 import hwang.joy.hw3.data.ContactEntity
 
 // Immutables logic
 @Immutable
 data class ImmutableList<T>(val list: List<T>): List<T> by list
-fun <T> immutableListOf(vararg items: T) =
-    ImmutableList(listOf(*items))
 fun <T> emptyImmutableList() = ImmutableList<T>(emptyList())
 
 @Immutable
@@ -32,21 +19,26 @@ data class ImmutableSet<T>(val set: Set<T>): Set<T> by set {
 }
 fun <T> emptyImmutableSet() = ImmutableSet<T>(emptySet())
 
+// Ported over Kotlin comparator function here due to resolution ambiguity error
+// Error: https://youtrack.jetbrains.com/issue/KTIJ-9051
+// Attribution: Kotlin source code
+// https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/comparisons/Comparisons.kt
+fun <T> compareValuesByImpl(a: T, b: T, selectors: Array<out (T) -> Comparable<*>?>): Int {
+    for (fn in selectors) {
+        val v1 = fn(a)
+        val v2 = fn(b)
+        val diff = compareValues(v1, v2)
+        if (diff != 0) return diff
+    }
+    return 0
+}
 
-// List logic
-// Interface - List
-sealed interface ListSelection {
-    operator fun contains(id: String): Boolean
+// Cannot actually overload compareBy function, so renaming
+fun <T> compareByOver(vararg selectors: (T) -> Comparable<*>?): Comparator<T> {
+    require(selectors.isNotEmpty())
+    return Comparator { a, b -> compareValuesByImpl(a, b, selectors) }
 }
-object NoListSelection: ListSelection {
-    override fun contains(id: String) = false
-}
-data class SingleListSelection(val id: String): ListSelection {
-    override fun contains(id: String ) = (this.id == id)
-}
-data class MultiListSelection(val ids: List<String>): ListSelection {
-    override fun contains(id: String) = (id in ids)
-}
+
 
 // Form data logic
 class ContactFormData(incomingContact: ContactEntity? = ContactEntity("", "", "", "", "", "", "")) {
@@ -87,45 +79,3 @@ fun createNewAddress(contactId: String): AddressEntity {
         contactId = contactId,
     )
 }
-
-// Composable - Common Text Field
-@Composable
-fun TextField(
-    @StringRes labelId: Int,
-    @StringRes placeholderId: Int,
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-) =
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = {
-            Text(text = stringResource(id = labelId))
-        },
-        placeholder = {
-            Text(text = stringResource(id = placeholderId))
-        },
-        modifier = modifier.fillMaxWidth().padding(8.dp)
-    )
-
-// Composable - Label
-// Composable - Display
-// Composable - Common Text
-
-
-// TO DELETE?
-@Immutable
-data class TopAction(
-    val icon: ImageVector,
-    @StringRes val contentDescriptionId: Int,
-    val onClick: () -> Unit,
-)
-
-@Composable
-fun SimpleButton(
-    text: String,
-    onClick: () -> Unit,
-) = Button(onClick = onClick) { Text(text = text) }
-
-

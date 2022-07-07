@@ -1,13 +1,16 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.sharp.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import hwang.joy.hw3.R
@@ -36,7 +39,7 @@ fun ContactListScreen(
         topBar = {
             if (selectedIds.size == 0) {
                 TopAppBar(
-                    title = { Text(text = "Contacts")},
+                    title = { Text(text = stringResource(id = R.string.screen_title_contacts))},
                     actions = {
                         IconButton(
                             onClick = {
@@ -46,8 +49,7 @@ fun ContactListScreen(
                             }
                         ) {
                             Icon(
-                                tint = Color.Green,
-                                imageVector = Icons.Default.Add,
+                                imageVector = Icons.Sharp.Add,
                                 contentDescription = stringResource(id = R.string.icon_description_tap_to_add)
                             )
                         }
@@ -60,8 +62,7 @@ fun ContactListScreen(
                             }
                         ) {
                             Icon(
-                                tint = Color.Yellow,
-                                imageVector = Icons.Default.Autorenew,
+                                imageVector = Icons.Sharp.Autorenew,
                                 contentDescription = stringResource(id = R.string.icon_description_reset_db),
                             )
 
@@ -74,8 +75,8 @@ fun ContactListScreen(
                             }
                         ) {
                             Icon(
-                                tint = Color.LightGray,
-                                imageVector = Icons.Default.Info,
+
+                                imageVector = Icons.Sharp.Info,
                                 contentDescription = stringResource(id = R.string.icon_description_about),
                             )
                         }
@@ -86,7 +87,7 @@ fun ContactListScreen(
                     title = { Text(text = "${selectedIds.size} selected")},
                     navigationIcon = {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.Sharp.ArrowBack,
                             contentDescription = stringResource(id = R.string.icon_description_clear_select),
                             modifier = Modifier
                                 .padding(8.dp)
@@ -105,8 +106,8 @@ fun ContactListScreen(
                             modifier = Modifier.padding(8.dp),
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Delete,
-                                contentDescription = "delete",
+                                imageVector = Icons.Sharp.Delete,
+                                contentDescription = stringResource(id = R.string.icon_description_delete),
                             )
                         }
                     }
@@ -115,12 +116,27 @@ fun ContactListScreen(
 
         },
     ) {
-        ContactListBody(
-            contacts = contacts,
-            getKey = { contactEntity -> contactEntity.id },
-            selectedIds = selectedIds,
-            onToggleSelect = onToggleSelect,
-            onContactClick = select,
-        )
+        if (contacts.isEmpty()) {
+            Card(
+                elevation = 4.dp,
+                backgroundColor = MaterialTheme.colors.surface,
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.message_no_contacts),
+                    modifier = Modifier.padding(4.dp),
+                )
+            }
+        } else {
+            ContactListBody(
+                contacts = contacts,
+                getKey = { contactEntity -> contactEntity.id },
+                selectedIds = selectedIds,
+                onToggleSelect = onToggleSelect,
+                onContactClick = select,
+            )
+        }
     }
 }

@@ -1,3 +1,6 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3
 
 import android.os.Bundle
@@ -26,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val scope = rememberCoroutineScope()
-            BackHandler() {
+            BackHandler {
                 viewModel.pop()
             }
             HW3Theme {
@@ -145,8 +148,6 @@ fun Ui (
                 }
             },
         )
-        is AboutScreen -> AboutScreen(
-            scope = scope,
-        )
+        is AboutScreen -> AboutScreen()
     }
 }

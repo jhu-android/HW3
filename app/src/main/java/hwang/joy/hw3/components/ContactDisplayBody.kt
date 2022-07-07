@@ -1,6 +1,8 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,7 +23,6 @@ fun ContactDisplayBody(
     contact: ContactWithAddresses?,
 ) {
     requireNotNull(contact)
-    Log.d("jhw_emp", contact.toString())
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState())
     ) {
@@ -80,7 +81,6 @@ fun ContactDisplayBody(
 
             }
         }
-
         if (contact.addresses.isNotEmpty()) {
             contact.addresses.forEach {
                 Card(

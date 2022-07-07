@@ -1,3 +1,6 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3.components
 
 import hwang.joy.hw3.data.AddressEntity
@@ -32,7 +35,7 @@ fun AddressEditBody(
         OutlinedTextField(
             value = addressFormData.type ?: "",
             label = { Text(text = stringResource(id = R.string.label_addressType)) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp, 8.dp, 4.dp),
             onValueChange = {
                 addressFormData.type = it
                 if (address != null) {
@@ -49,7 +52,7 @@ fun AddressEditBody(
         OutlinedTextField(
             value = addressFormData.street ?: "",
             label = { Text(text = stringResource(id = R.string.label_street)) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp, 8.dp, 4.dp),
             onValueChange = {
                 addressFormData.street = it
                 if(address != null) {
@@ -66,7 +69,7 @@ fun AddressEditBody(
         OutlinedTextField(
             value = addressFormData.city ?: "",
             label = { Text(text = stringResource(id = R.string.label_city)) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp, 8.dp, 4.dp),
             onValueChange = {
                 addressFormData.city = it
                 if(address != null) {
@@ -83,7 +86,7 @@ fun AddressEditBody(
         OutlinedTextField(
             value = addressFormData.state ?: "",
             label = { Text(text = stringResource(id = R.string.label_state)) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp, 8.dp, 4.dp),
             onValueChange = {
                 addressFormData.state = it
                 if(address != null) {
@@ -100,7 +103,7 @@ fun AddressEditBody(
         OutlinedTextField(
             value = addressFormData.zip ?: "",
             label = { Text(text = stringResource(id = R.string.label_zip)) },
-            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            modifier = Modifier.fillMaxWidth().padding(8.dp, 4.dp, 8.dp, 4.dp),
             onValueChange = {
                 addressFormData.zip = it
                 if(address != null) {

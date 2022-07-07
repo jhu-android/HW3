@@ -1,7 +1,9 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3
 
 import android.app.Application
-import android.util.Log
 import androidx.room.Room
 import hwang.joy.hw3.data.AddressEntity
 import hwang.joy.hw3.data.ContactDatabase

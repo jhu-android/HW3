@@ -1,8 +1,11 @@
+// Attribution: Scott Stanfield, Android Summer 2022
+// Source code: https://gitlab.com/605-686/android-summer-2022/-/tree/main/Movies3
+
 package hwang.joy.hw3.screens
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.sharp.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -28,7 +31,7 @@ fun AddressEditScreen(
             TopAppBar(
                 title = {
                     if (address == null) {
-                        Text(text = "New Address")
+                        Text(text = stringResource(id = R.string.screen_title_address_add))
                     } else {
                         Text(text = "Edit ${address.type} Address")
                     }
@@ -43,7 +46,7 @@ fun AddressEditScreen(
                     ) {
                         Icon(
                             tint = Color.LightGray,
-                            imageVector = Icons.Default.Info,
+                            imageVector = Icons.Sharp.Info,
                             contentDescription = stringResource(id = R.string.icon_description_about),
                         )
                     }

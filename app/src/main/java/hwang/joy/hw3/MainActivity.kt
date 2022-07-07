@@ -1,7 +1,6 @@
 package hwang.joy.hw3
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -15,11 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import hwang.joy.hw3.components.emptyImmutableList
-import hwang.joy.hw3.screens.AboutScreen
-import hwang.joy.hw3.screens.AddressEditScreen
-import hwang.joy.hw3.screens.ContactDisplayScreen
-import hwang.joy.hw3.screens.ContactEditScreen
-import hwang.joy.hw3.screens.ContactListScreen
+import hwang.joy.hw3.screens.*
 import hwang.joy.hw3.ui.theme.HW3Theme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -53,9 +48,8 @@ fun Ui (
     exit: () -> Unit,
 ) {
     val contacts by viewModel.contactsFlow.collectAsState(initial = emptyImmutableList())
-    val addresses by viewModel.addressesFlow.collectAsState(initial = emptyImmutableList())
     
-    when (val currentScreen = viewModel.screen) {
+    when (viewModel.screen) {
         null -> exit()
         is ContactListScreen -> ContactListScreen(
             scope = scope,
@@ -66,7 +60,6 @@ fun Ui (
             onDeleteSelections = viewModel::deleteSelectedContacts,
             onReset = {
                 scope.launch {
-                    Log.d("jhw", "resetting DB")
                     viewModel.resetDatabase()
                 }
             },
@@ -116,14 +109,12 @@ fun Ui (
             },
             onAddAddressClick = {
                 scope.launch {
-                    Log.d("jhw@", "screen to add address to preexisting contact")
                     viewModel.unselectAddress()
                     viewModel.push(AddressEditScreen)
                 }
             },
             onAddAddressClickNewContact = {
                 scope.launch {
-                    Log.d("jhw@", "create new contact, screen to add address ")
                     viewModel.insertContact(it)
                     viewModel.unselectAddress()
                     viewModel.push(AddressEditScreen)

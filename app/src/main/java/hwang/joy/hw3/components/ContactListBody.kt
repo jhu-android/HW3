@@ -3,10 +3,7 @@ package hwang.joy.hw3.components
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,68 +26,64 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun ContactListBody(
-    scope: CoroutineScope,
     contacts: ImmutableList<ContactEntity>,
     getKey: (ContactEntity) -> String,
     selectedIds: ImmutableSet<String>,
     onToggleSelect: (String) -> Unit,
-    onClearSelections: () -> Unit,
-    onDeleteSelections: suspend () -> Unit,
     onContactClick: (ContactEntity) -> Unit,
 ) {
     val sortedContacts = contacts.sortedBy { it.lastName.uppercase() }
 
     LazyColumn(
         modifier = Modifier.padding(20.dp)
-    ) { items(
-        items = sortedContacts,
-        key = getKey,
-    ) { contact ->
-        val key = getKey(contact)
-        Card(
-            elevation = 4.dp,
-            backgroundColor =
-            if (key in selectedIds)
-                MaterialTheme.colors.primary
-            else
-                MaterialTheme.colors.surface
-            ,
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-                .pointerInput(selectedIds) {
-                    detectTapGestures(
-                        onLongPress = {
-                            onToggleSelect(key)
-                        },
-                        onTap = {
-                            if (selectedIds.isNotEmpty()) {
+    ) {
+        items(
+            items = sortedContacts,
+            key = getKey,
+        ) { contact ->
+            val key = getKey(contact)
+            Card(
+                backgroundColor =
+                if (key in selectedIds)
+                    MaterialTheme.colors.primary
+                else
+                    MaterialTheme.colors.surface
+                ,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+                    .pointerInput(selectedIds) {
+                        detectTapGestures(
+                            onLongPress = {
                                 onToggleSelect(key)
-                            } else {
-                                onContactClick(contact)
+                            },
+                            onTap = {
+                                if (selectedIds.isNotEmpty()) {
+                                    onToggleSelect(key)
+                                } else {
+                                    onContactClick(contact)
+                                }
                             }
-                        }
-                    )
-                }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+                        )
+                    }
             ) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = stringResource(id = R.string.icon_description_tap_to_select),
-                    modifier = Modifier
-                        .size(48.dp)
-                        .padding(8.dp)
-                        .clickable {
-                            onToggleSelect(key)
-                        }
-                )
-                Text(text= "${contact.firstName} ${contact.lastName}")
-                Text(text= contact.mobilePhone)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = stringResource(id = R.string.icon_description_tap_to_select),
+                        modifier = Modifier
+                            .size(48.dp)
+                            .padding(8.dp)
+                            .clickable {
+                                onToggleSelect(key)
+                            }
+                    )
+                    Text(text= "${contact.firstName} ${contact.lastName}")
+                    Text(text= contact.mobilePhone)
+                }
             }
         }
     }
-    }
-
 }

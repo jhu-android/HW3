@@ -1,10 +1,6 @@
 package hwang.joy.hw3.screens
 
-import android.util.Log
 import androidx.compose.foundation.clickable
-import hwang.joy.hw3.Screen
-import hwang.joy.hw3.data.ContactEntity
-import kotlinx.coroutines.CoroutineScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -14,12 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import hwang.joy.hw3.R
 import hwang.joy.hw3.components.ContactListBody
 import hwang.joy.hw3.components.ImmutableList
 import hwang.joy.hw3.components.ImmutableSet
+import hwang.joy.hw3.data.ContactEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun ContactListScreen(
@@ -118,14 +116,11 @@ fun ContactListScreen(
         },
     ) {
         ContactListBody(
-            scope = scope,
             contacts = contacts,
             getKey = { contactEntity -> contactEntity.id },
             selectedIds = selectedIds,
             onToggleSelect = onToggleSelect,
-            onClearSelections = onClearSelections,
             onContactClick = select,
-            onDeleteSelections = onDeleteSelections,
         )
     }
 }

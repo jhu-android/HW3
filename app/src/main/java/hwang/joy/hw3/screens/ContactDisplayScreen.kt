@@ -1,20 +1,13 @@
 package hwang.joy.hw3.screens
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import hwang.joy.hw3.R
-import hwang.joy.hw3.Screen
 import hwang.joy.hw3.components.ContactDisplayBody
 import hwang.joy.hw3.data.ContactWithAddresses
 import kotlinx.coroutines.CoroutineScope
@@ -68,7 +61,6 @@ fun ContactDisplayScreen(
         },
     ) {
         ContactDisplayBody(
-            scope = scope,
             contact = contact,
         )
     }

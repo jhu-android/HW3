@@ -22,7 +22,7 @@ fun AddressEditScreen(
     onAddressAdd: suspend(AddressEntity) -> Unit,
     onAddressChange: suspend (AddressEntity) -> Unit,
 ) {
-    
+    requireNotNull(contactId)
     Scaffold(
         topBar = {
             TopAppBar(

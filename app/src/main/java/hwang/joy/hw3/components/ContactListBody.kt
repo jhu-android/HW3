@@ -38,7 +38,7 @@ fun ContactListBody(
     onDeleteSelections: suspend () -> Unit,
     onContactClick: (ContactEntity) -> Unit,
 ) {
-    val sortedContacts = contacts.sortedBy { it.lastName }
+    val sortedContacts = contacts.sortedBy { it.lastName.uppercase() }
 
     LazyColumn(
         modifier = Modifier.padding(20.dp)

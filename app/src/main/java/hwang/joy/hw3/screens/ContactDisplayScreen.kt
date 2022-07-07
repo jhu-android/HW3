@@ -24,12 +24,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun ContactDisplayScreen(
     scope: CoroutineScope,
-    currentScreen: Screen,
-    onListScreenSelect:(Screen) -> Unit,
     contact: ContactWithAddresses?,
     onEdit: () -> Unit,
     onClickAbout: () -> Unit,
-//    onEdit: (ContactWithAddresses) -> Unit,
 ) {
     Scaffold(
         topBar = {

@@ -1,6 +1,5 @@
 package hwang.joy.hw3.components
 
-import android.util.Log
 import hwang.joy.hw3.data.AddressEntity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +21,7 @@ import kotlinx.coroutines.launch
 fun AddressEditBody(
     scope: CoroutineScope,
     address: AddressEntity?,
-    contactId: String?,
+    contactId: String,
     onAddressAdd: suspend(AddressEntity) -> Unit,
     onAddressChange: suspend (AddressEntity) -> Unit,
 ) {
@@ -42,7 +41,7 @@ fun AddressEditBody(
                     }
                 } else {
                     scope.launch {
-                        onAddressAdd(createNewAddress(contactId ?: "").copy(type = it)) // TODO this should never be null
+                        onAddressAdd(createNewAddress(contactId).copy(type = it))
                     }
                 }
             },
@@ -59,14 +58,62 @@ fun AddressEditBody(
                     }
                 } else {
                     scope.launch {
-                        onAddressAdd(createNewAddress(contactId ?: "").copy(street = it)) // TODO this should never be null
+                        onAddressAdd(createNewAddress(contactId).copy(street = it))
                     }
                 }
             },
         )
-
+        OutlinedTextField(
+            value = addressFormData.city ?: "",
+            label = { Text(text = stringResource(id = R.string.label_city)) },
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            onValueChange = {
+                addressFormData.city = it
+                if(address != null) {
+                    scope.launch {
+                        onAddressChange(address.copy(city = it))
+                    }
+                } else {
+                    scope.launch {
+                        onAddressAdd(createNewAddress(contactId).copy(city = it))
+                    }
+                }
+            },
+        )
+        OutlinedTextField(
+            value = addressFormData.state ?: "",
+            label = { Text(text = stringResource(id = R.string.label_state)) },
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            onValueChange = {
+                addressFormData.state = it
+                if(address != null) {
+                    scope.launch {
+                        onAddressChange(address.copy(state = it))
+                    }
+                } else {
+                    scope.launch {
+                        onAddressAdd(createNewAddress(contactId).copy(state = it))
+                    }
+                }
+            },
+        )
+        OutlinedTextField(
+            value = addressFormData.zip ?: "",
+            label = { Text(text = stringResource(id = R.string.label_zip)) },
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            onValueChange = {
+                addressFormData.zip = it
+                if(address != null) {
+                    scope.launch {
+                        onAddressChange(address.copy(zip = it))
+                    }
+                } else {
+                    scope.launch {
+                        onAddressAdd(createNewAddress(contactId).copy(zip = it))
+                    }
+                }
+            },
+        )
     }
-
-
 }
 

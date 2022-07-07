@@ -85,8 +85,6 @@ fun Ui (
         }
         is ContactDisplayScreen -> ContactDisplayScreen(
             scope = scope,
-            currentScreen = currentScreen,
-            onListScreenSelect = viewModel:: selectListScreen,
             contact = viewModel.contact,
             onEdit = {
                 viewModel.push(ContactEditScreen)
